@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --margin-from-main: 1.2em;
+    --padding-main-sections: 1.2em;
+}
+
+body {
+    font-weight: bold;
+}
+
+main {
+    width: 375px;
+    max-width: 100%;
+    background-color: hsl(222, 26%, 31%);
+    margin: 0 auto;   
+}
+
+.keypad {
+    background-color: hsl(223, 31%, 20%);
+    padding: var(--padding-main-sections);
+    margin: var(--margin-from-main);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.keypad button {
+    padding: 1em;
+    margin-bottom: 0.7em;
+    margin-left: 0.7em;
+    border-radius: 5px;
+    transition: all;
+}
+
+.toggle {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: var(--margin-from-main);
+    padding: var(--padding-main-sections);
+    padding-left: 0;
+    padding-right: 0;
+    background-color: ;
+}

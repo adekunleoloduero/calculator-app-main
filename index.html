@@ -7,6 +7,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
   
   <title>Frontend Mentor | Calculator app</title>
+  <link rel="stylesheet" href="./css/theme-1.css">
+  <script src="./scripts/theme-1.js" defer></script>
 
   <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
   <style>
@@ -15,12 +17,44 @@
   </style>
 </head>
 <body>
+  <main class="container main-background">
+    <div class="calculator-top">
+      <h2>calc</h2>
+      
+      <div class="toggle toggle-background">
+        <h4>THEME</h4>
+         <label for="togle-button">123</label><br>
+         <input type="toggle">
+      </div>
+    </div>
+    <div class="screen screen-background">
+      <input type="text" id="screen" name="screen" align>
+    </div>
+    <div class="keypad keypad-background">
+      <input type="button" id="seven" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="7">
+      <input type="button" id="eight" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="8">
+      <input type="button" id="nine" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="9">
+      <input type="button" id="delete" class="special desaturated-dark-blue-background white desaturated-dark-blue-shadow" value="DEL">
+      <input type="button" id="four" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="4">
+      <input type="button" id="five" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="5">
+      <input type="button" id="six" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="6">
+      <input type="button" id="addition" class="operator light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="+">
+      <input type="button" id="one" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="1">
+      <input type="button" id="two" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="2">
+      <input type="button" id="three" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="3">
+      <input type="button" id="subtraction" class="operator light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="-">
+      <input type="button" id="dot" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value=".">
+      <input type="button" id="zero" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="0">
+      <input type="button" id="division" class="operator light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="/">
+      <input type="button" id="multiplication" class="operator light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="x">
+      <input type="button" id="reset" class="special desaturated-dark-blue-background white desaturated-dark-blue-shadow reset" value="RESET">
+      <input type="button" id="equal-to" class="special red white dark-red-shadow equal-to" value="=">
+    </div>
+  </main>
 
-
-  
   <div class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
+    Coded by <a href="#">Sheriff Adekunle Tajudeen</a>.
   </div>
 </body>
 </html>

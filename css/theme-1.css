@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --padding-main-sections: 1.2em;
+    --border-radius-5: 6px;
+    --border-radius-10: 10px;
+    --main-padding: 1.2rem;
+    --section-bottom-margin: 1.2em;
+    --botton-gap: 0.8em;
+}
+
+body {
+    font-weight: 700;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+    width: 375px;
+    max-width: 100%;
+    min-height: 653px;
+    margin: 0 auto;  
+    padding: var(--main-padding); 
+}
+
+.keypad {
+    padding: var(--padding-main-sections);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-radius: var(--border-radius-10);
+    gap: var(--botton-gap);
+}
+
+.keypad input {
+    padding: 0.3em;
+    border-radius: var(--border-radius-5);
+    border: none;
+    font-size: 32px;
+}
+
+.keypad input:active {
+    cursor: pointer;
+    transform: translateY(1px);
+}
+
+.keypad input:hover {
+    cursor: pointer;
+}
+
+.calculator-top {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: var(--padding-main-sections);
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: var(--section-bottom-margin);
+    color: hsl(0, 0%, 100%);
+}
+
+.screen {
+    border-radius: var(--border-radius-10);
+    padding: 1.2em;
+    margin-bottom: var(--section-bottom-margin);
+    /* margin: var(--margin-from-main); */
+}
+
+.reset {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.equal-to {
+    grid-column-start: 3;
+    grid-column-end: 5;
+}
+
+.screen input {
+    background-color: hsl(224, 36%, 15%);
+    padding: 0.1em;
+    font-size: 32px;
+    max-width: 100%;
+    border: none;
+    text-align: right;
+    color: hsl(0, 0%, 100%);
+}
+
+/*THEME 1 SEPECIFIC STYLES*/
+/*Backgrounds*/
+.main-background {
+    background-color: hsl(222, 26%, 31%);
+}
+
+.toggle-background, .keypad-background {
+    background-color: hsl(223, 31%, 20%);
+}
+
+.screen-background {
+    background-color: hsl(224, 36%, 15%);
+}
+
+
+
+/*Keys*/
+.desaturated-dark-blue-background {
+    background-color: hsl(225, 21%, 49%);
+}
+
+.desaturated-dark-blue-shadow {
+    box-shadow: 0 4px 0 0 hsl(224, 28%, 35%);   
+}
+
+.red {
+    background-color: hsl(6, 63%, 50%);
+}
+
+.dark-red-shadow {
+    box-shadow: 0 4px 0 0 hsl(6, 70%, 34%);
+}
+
+.light-grayish-orange {
+    background-color: hsl(30, 25%, 89%);
+}
+
+.grayish-orange-shadow {
+    box-shadow: 0 4px 0 0 hsl(28, 16%, 65%);
+}
+
+/*Text*/
+.very-dark-grayish-blue {
+    color: hsl(221, 14%, 31%);
+}
+
+.white {
+    color: hsl(0, 0%, 100%);
+}
+
+
+/*Active state*/
+.keypad button:hover {
+    cursor: pointer;
+}
+
