@@ -2,7 +2,7 @@
 //Get value from keys to the screen
 window.onload = function() {
     focusOnScreen();
-    appendKeyValuesToScreen()
+    showOrModifyInput()
 }
 
 
@@ -12,7 +12,7 @@ function focusOnScreen() {
     screen.focus();
 }
 
-function appendKeyValuesToScreen() {
+function showOrModifyInput() {
     let previousKeyCategory = "", currentKeyCategory;
     
     const screen = document.getElementById("screen");
@@ -35,17 +35,19 @@ function appendKeyValuesToScreen() {
                 screen.value = screen.value + " " + key.value;
             } else if (previousKeyCategory == 'operator' && currentKeyCategory == 'operand' && currentKeyCategory != 'special') {
                 screen.value = screen.value + " " + key.value;
+            } else if (previousKeyCategory == " " || previousKeyCategory == 'operator' && currentKeyCategory == 'operator') {
+                removeOrReplaceLastValue(screen.value, key.value);
             } else if (previousKeyCategory == 'operand' || previousKeyCategory == 'operator' || previousKeyCategory == 'special' && currentKeyCategory == 'special') {
                 if (key.id == 'equal-to') {
-                    //To do if key is eual to
+                    //To do if key is eual to is clicked/pressed
                     // doCalculations(screen.value);
                 } else if (key.id == 'delete') {
-                    //To do if key is delete
-                    // deleteLastValue(screen.value);
-                    const newScreenValue = deleteLastValue(screen.value);
+                    //To do if delete key is clicked/pressed
+                    const newScreenValue = removeOrReplaceLastValue(screen.value);
                     screen.value = newScreenValue;
 
                 } else if (key.id == 'reset') {
+                    //To-do if reset key is clicked/pressed
                     screen.value = ""; //Reset the screen
                 }
             }
@@ -61,18 +63,36 @@ function doCalculations(input) {
     return output;
 }
 
-function deleteLastValue (screenValue) {
+function removeOrReplaceLastValue (screenValue, replacement) {
     let newScreenValue = "";
-    const screenValueSplited = screenValue.split(" ");
-    const lastValue = screenValueSplited[-1];
-
-    if (lastValue.length < 2) {
-        
+    // const screenValueSplited = screenValue.split(" ");
+    const screenValueSplited = () => {
+        let result = [];
+        for (let i = 0; i < screenValue.length; i++) {
+            if (screenValue[i] != ' ') {
+                result.push(screenValue[i]);
+            }
+        }
+        return result;
     }
 
-    const valuesAfterLastValueRemoved = screenValueSplited.slice(0, screenValueSplited.length - 1);
+    console.log("splitedValues", screenValueSplited());
+
+    let lastValue = screenValueSplited[screenValueSplited.length - 1];
+
+    if (lastValue.length >= 1 && replacement == undefined) { //Remove only the last charater if last value contain several characters.
+        lastValue = lastValue.substring(0, lastValue.length - 1);
+    } else if (lastValue.length == 1 && replacement != undefined) { //Replace last value of single character with the specified "replacement"
+        lastValue = replacement;
+    }
+
+    let valuesAfterLastValueRemoved = screenValueSplited.slice(0, screenValueSplited.length - 1); //Temporarily remove last value
+     console.log("valuesAfterLastValueRemoved", valuesAfterLastValueRemoved);
+    valuesAfterLastValueRemoved.push(lastValue); //Append last value after eliminating the unwanted character
+    console.log("valueAfterModifiedLastValueAppended", valuesAfterLastValueRemoved);
+    
     for (const val of valuesAfterLastValueRemoved) {
-        newScreenValue += " " + val;
+        newScreenValue = `${newScreenValue} ${val}`;
     }
 
     return newScreenValue;
