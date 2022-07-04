@@ -1,8 +1,7 @@
 
-//Get value from keys to the screen
 window.onload = function() {
     focusOnScreen();
-    showOrModifyInput()
+    processInput(getInputs, deleteValue);
 }
 
 
@@ -12,89 +11,87 @@ function focusOnScreen() {
     screen.focus();
 }
 
-function showOrModifyInput() {
-    let previousKeyCategory = "", currentKeyCategory;
-    
-    const screen = document.getElementById("screen");
+
+function processInput(getInputs, deleteValue) {
+    let specialInput;
+    const displaybleInputs = [];
     const keys = document.querySelectorAll(".keypad input");
+
     keys.forEach(key => {
         key.addEventListener("click", () => {
-            //Get category of the key that is pressed
-            if (key.classList.contains("operand")) {
-                currentKeyCategory = 'operand';
-            } else if (key.classList.contains("operator")) {
-                currentKeyCategory = 'operator'
-            } else if (key.classList.contains("special")) {
-                currentKeyCategory = 'special';
-            }
-
-            //At the start
-            if (previousKeyCategory == "" && currentKeyCategory == 'operand' || previousKeyCategory == 'operand' && currentKeyCategory == 'operand' && currentKeyCategory != 'special') {
-                screen.value = screen.value + key.value;
-            } else if (previousKeyCategory == 'operand' && currentKeyCategory == 'operator' && currentKeyCategory != 'special') {
-                screen.value = screen.value + " " + key.value;
-            } else if (previousKeyCategory == 'operator' && currentKeyCategory == 'operand' && currentKeyCategory != 'special') {
-                screen.value = screen.value + " " + key.value;
-            } else if (previousKeyCategory == " " || previousKeyCategory == 'operator' && currentKeyCategory == 'operator') {
-                removeOrReplaceLastValue(screen.value, key.value);
-            } else if (previousKeyCategory == 'operand' || previousKeyCategory == 'operator' || previousKeyCategory == 'special' && currentKeyCategory == 'special') {
-                if (key.id == 'equal-to') {
-                    //To do if key is eual to is clicked/pressed
-                    // doCalculations(screen.value);
-                } else if (key.id == 'delete') {
-                    //To do if delete key is clicked/pressed
-                    const newScreenValue = removeOrReplaceLastValue(screen.value);
-                    screen.value = newScreenValue;
-
-                } else if (key.id == 'reset') {
-                    //To-do if reset key is clicked/pressed
-                    screen.value = ""; //Reset the screen
+            if (key.classList.contains('operand') || key.classList.contains('operator')) {
+                getInputs(displaybleInputs, key.id);
+                focusOnScreen();
+            } else if (key.classList.contains('special')){
+                specialInput = key.id;
+                if (specialInput == "delete") {
+                    deleteValue(displaybleInputs, displaybleInputs[displaybleInputs.length - 1]);
+                    focusOnScreen();
+                } else if (specialInput == "reset") {
+                    clearScreen();
+                    focusOnScreen();
+                } else if (specialInput == "equal-to") {
+                    doCalculations(displaybleInputs);
+                    focusOnScreen();
                 }
             }
-            previousKeyCategory = currentKeyCategory;
-            focusOnScreen();
         });
     });
 }
 
 
-function doCalculations(input) {
-    const output = 0;
-    return output;
+function showInputs(inputs) {
+    const screen = document.getElementById("screen");
+    let screenValue = "";
+
+    for (const input of inputs) {
+        screenValue = `${screenValue}${input.toString()}`;
+    }
+    screen.value = screenValue;
 }
 
-function removeOrReplaceLastValue (screenValue, replacement) {
-    let newScreenValue = "";
-    // const screenValueSplited = screenValue.split(" ");
-    const screenValueSplited = () => {
-        let result = [];
-        for (let i = 0; i < screenValue.length; i++) {
-            if (screenValue[i] != ' ') {
-                result.push(screenValue[i]);
-            }
+function getInputs(inputs, ID) {
+    const operatorsAndOperands = {
+        "one": 1,
+        "two": 2,
+        "three": 3,
+        "four": 4,
+        "five": 5,
+        "six": 6,
+        "seven": 7,
+        "eight": 8,
+        "nine": 9,
+        "zero": 0,
+        "dot": ".",
+        "addition": " + ",
+        "subtraction": " - ",
+        "multiplication": " x ",
+        "division": " / ",
+    }
+    for (const key in operatorsAndOperands) {
+        if (key == ID) {
+            inputs.push(operatorsAndOperands[key]);
         }
-        return result;
     }
 
-    console.log("splitedValues", screenValueSplited());
-
-    let lastValue = screenValueSplited[screenValueSplited.length - 1];
-
-    if (lastValue.length >= 1 && replacement == undefined) { //Remove only the last charater if last value contain several characters.
-        lastValue = lastValue.substring(0, lastValue.length - 1);
-    } else if (lastValue.length == 1 && replacement != undefined) { //Replace last value of single character with the specified "replacement"
-        lastValue = replacement;
-    }
-
-    let valuesAfterLastValueRemoved = screenValueSplited.slice(0, screenValueSplited.length - 1); //Temporarily remove last value
-     console.log("valuesAfterLastValueRemoved", valuesAfterLastValueRemoved);
-    valuesAfterLastValueRemoved.push(lastValue); //Append last value after eliminating the unwanted character
-    console.log("valueAfterModifiedLastValueAppended", valuesAfterLastValueRemoved);
-    
-    for (const val of valuesAfterLastValueRemoved) {
-        newScreenValue = `${newScreenValue} ${val}`;
-    }
-
-    return newScreenValue;
+    showInputs(inputs);
 }
+
+
+function deleteValue(inputs, valToDelete) {
+    inputs.pop(valToDelete);
+    showInputs(inputs);
+}
+
+function clearScreen() {
+    const screen = document.getElementById("screen");
+    screen.value = "";
+}
+
+function doCalculations(inputs) {
+
+}
+
+
+
 
