@@ -50,7 +50,7 @@ function showInputs(inputs) {
     screen.value = screenValue;
 }
 
-function getInputs(inputs, ID) {
+function getInputs(inputs, ID, preventConsequtiveOperators) {
     const operatorsAndOperands = {
         "one": 1,
         "two": 2,
@@ -68,8 +68,19 @@ function getInputs(inputs, ID) {
         "multiplication": " x ",
         "division": " / ",
     }
+
+    const operators = {
+        "addition": " + ",
+        "subtraction": " - ",
+        "multiplication": " x ",
+        "division": " / ",
+    }
+
     for (const key in operatorsAndOperands) {
         if (key == ID) {
+            if (operators.hasOwnProperty(key) == true) {
+                preventConsequtiveOperators(inputs, key)
+            }
             inputs.push(operatorsAndOperands[key]);
         }
     }
@@ -89,6 +100,23 @@ function clearScreen() {
 }
 
 function doCalculations(inputs) {
+
+}
+
+function preventConsequtiveOperators(allInputs, inputType) {
+    let inputValue;
+    const operators = {
+        "addition": " + ",
+        "subtraction": " - ",
+        "division": " / ",
+        "multiplication": " x ",
+    }
+
+    inputValue = operators[inputType];
+
+    if (inputValue == allInputs[allInputs.length - 1]) {
+        allInputs[allInputs.length - 1] = operators[inputType];
+    }
 
 }
 
