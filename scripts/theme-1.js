@@ -4,6 +4,7 @@ window.onload = function() {
     processInput(getInputs, deleteValue, clearScreen);
 }
 
+const displaybleInputs = [];
 
 //Focus on the screen immediately the page loads.
 function focusOnScreen() {
@@ -14,9 +15,7 @@ function focusOnScreen() {
 
 function processInput(getInputs, deleteValue, clearScreen) {
     let specialInput;
-    const displaybleInputs = [];
     const keys = document.querySelectorAll(".keypad input");
-
     keys.forEach(key => {
         key.addEventListener("click", () => {
             if (key.classList.contains('operand') || key.classList.contains('operator')) {
@@ -104,13 +103,7 @@ function deleteValue(displaybleInputs) {
 }
 
 function clearScreen(displaybleInputs) {
-    // const screen = document.getElementById("screen");
-    // screen.value = "";
-    // for (let i = 0; i < displaybleInputs.length; i++) {
-    //     console.log(displaybleInputs[i])
-    //     displaybleInputs.pop();
-    // }
-    displaybleInputs = [];
+    displaybleInputs.splice(0, displaybleInputs.length);
     showInputs(displaybleInputs);
 }
 
