@@ -81,15 +81,18 @@ function getInputs(displaybleInputs, ID, preventConsequtiveOperators) {
 
     for (const key in operatorsAndOperands) {
         if (key == ID) {
+            let lastInputType;
             if (operators.hasOwnProperty(key) == true) {
-                let lastInputType;
                 for (const op in operators) {
                     if (operators[op] == displaybleInputs[displaybleInputs.length - 1]) {
                         lastInputType = op;
                     }
                 }
                 preventConsequtiveOperators(displaybleInputs, lastInputType, key)
-            } else displaybleInputs.push(operatorsAndOperands[key]);
+            } else if ()
+            else {
+                displaybleInputs.push(operatorsAndOperands[key]);
+            }
         }
     }
 
@@ -141,11 +144,18 @@ function handleDot() {
     /**
      * If length of displaybleInput is 0 do not append dot
      */
+    if (displaybleInputs.length == 0) {
+        displaybleInputs = [];
+    }
 
     //A dot should not come immediately after another dot
     /**
      * If lastInputType is dot don't append dot
      */
+
+    if (displaybleInputs[displaybleInputs.length - 1] == ".") {
+        displaybleInputs[displaybleInputs.length - 1] = ".";
+    }
 
     //An operator should not come immediately after a dot
     /**
