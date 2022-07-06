@@ -1,7 +1,7 @@
 
 window.onload = function() {
     focusOnScreen();
-    processInput(getInputs, deleteValue);
+    processInput(getInputs, deleteValue, clearScreen);
 }
 
 
@@ -12,7 +12,7 @@ function focusOnScreen() {
 }
 
 
-function processInput(getInputs, deleteValue) {
+function processInput(getInputs, deleteValue, clearScreen) {
     let specialInput;
     const displaybleInputs = [];
     const keys = document.querySelectorAll(".keypad input");
@@ -20,16 +20,19 @@ function processInput(getInputs, deleteValue) {
     keys.forEach(key => {
         key.addEventListener("click", () => {
             if (key.classList.contains('operand') || key.classList.contains('operator')) {
-                getInputs(displaybleInputs, key.id);
+                getInputs(displaybleInputs, key.id, preventConsequtiveOperators);
                 focusOnScreen();
+
             } else if (key.classList.contains('special')){
                 specialInput = key.id;
                 if (specialInput == "delete") {
-                    deleteValue(displaybleInputs, displaybleInputs[displaybleInputs.length - 1]);
+                    deleteValue(displaybleInputs);
                     focusOnScreen();
+
                 } else if (specialInput == "reset") {
-                    clearScreen();
+                    clearScreen(displaybleInputs);
                     focusOnScreen();
+
                 } else if (specialInput == "equal-to") {
                     doCalculations(displaybleInputs);
                     focusOnScreen();
@@ -40,17 +43,17 @@ function processInput(getInputs, deleteValue) {
 }
 
 
-function showInputs(inputs) {
+function showInputs(displaybleInputs) {
     const screen = document.getElementById("screen");
     let screenValue = "";
 
-    for (const input of inputs) {
+    for (const input of displaybleInputs) {
         screenValue = `${screenValue}${input.toString()}`;
     }
     screen.value = screenValue;
 }
 
-function getInputs(inputs, ID, preventConsequtiveOperators) {
+function getInputs(displaybleInputs, ID, preventConsequtiveOperators) {
     const operatorsAndOperands = {
         "one": 1,
         "two": 2,
@@ -74,50 +77,108 @@ function getInputs(inputs, ID, preventConsequtiveOperators) {
         "subtraction": " - ",
         "multiplication": " x ",
         "division": " / ",
+        // "dot": "." //Here dot is treated as an operator, for convenience
     }
 
     for (const key in operatorsAndOperands) {
         if (key == ID) {
             if (operators.hasOwnProperty(key) == true) {
-                preventConsequtiveOperators(inputs, key)
-            }
-            inputs.push(operatorsAndOperands[key]);
+                let lastInputType;
+                for (const op in operators) {
+                    if (operators[op] == displaybleInputs[displaybleInputs.length - 1]) {
+                        lastInputType = op;
+                    }
+                }
+                preventConsequtiveOperators(displaybleInputs, lastInputType, key)
+            } else displaybleInputs.push(operatorsAndOperands[key]);
         }
     }
 
-    showInputs(inputs);
+    showInputs(displaybleInputs);
 }
 
 
-function deleteValue(inputs, valToDelete) {
-    inputs.pop(valToDelete);
-    showInputs(inputs);
+function deleteValue(displaybleInputs) {
+    displaybleInputs.pop();
+    showInputs(displaybleInputs);
 }
 
-function clearScreen() {
-    const screen = document.getElementById("screen");
-    screen.value = "";
+function clearScreen(displaybleInputs) {
+    // const screen = document.getElementById("screen");
+    // screen.value = "";
+    // for (let i = 0; i < displaybleInputs.length; i++) {
+    //     console.log(displaybleInputs[i])
+    //     displaybleInputs.pop();
+    // }
+    displaybleInputs = [];
+    showInputs(displaybleInputs);
 }
 
-function doCalculations(inputs) {
 
-}
-
-function preventConsequtiveOperators(allInputs, inputType) {
+function preventConsequtiveOperators(allInputs, lastInputType, newInputType) {
     let inputValue;
     const operators = {
         "addition": " + ",
         "subtraction": " - ",
         "division": " / ",
         "multiplication": " x ",
+        // "dot": "." //Here dot is treated as an operator, for convenience
     }
 
-    inputValue = operators[inputType];
-
-    if (inputValue == allInputs[allInputs.length - 1]) {
-        allInputs[allInputs.length - 1] = operators[inputType];
+    inputValue = operators[newInputType];
+    if (inputValue == allInputs[allInputs.length - 1] || operators.hasOwnProperty(lastInputType)) {
+        allInputs[allInputs.length - 1] = inputValue; //1. Replace the last value on the screen with the new input if the both the former and the latter operators
+    } else {
+        allInputs.push(inputValue); //2. Add the new input to the screen if condition 1 failed. 
     }
 
+}
+
+
+function handleDot() {
+    //A given value should not contain multiple dots
+    /** 
+     * Get last value on the screen
+     * Count number of dot it contains
+     * If number of dot is greater less that zero append dot
+     * Otherwise, don't append dot
+    */
+
+    //Should not start with a dot
+    /**
+     * If length of displaybleInput is 0 do not append dot
+     */
+
+    //A dot should not come immediately after another dot
+    /**
+     * If lastInputType is dot don't append dot
+     */
+
+    //An operator should not come immediately after a dot
+    /**
+     * If lastInputType is an operator don'tt append dot
+     */
+}
+
+
+function doCalculations(inputs, addition, subtraction, multiplication, division) {
+
+}
+
+function addition(val1, val2) {
+
+}
+
+function subtraction(val1, val2) {
+    
+}
+
+function multiplication(val1, val2) {
+    
+}
+
+function division(val1, val2) {
+    
 }
 
 
