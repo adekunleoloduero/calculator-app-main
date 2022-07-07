@@ -1,17 +1,34 @@
 
 window.onload = function() {
     focusOnScreen();
-    processInput(getInputs, deleteValue, clearScreen, handleDot, preventOperatorAfterDot);
+    processInput(getInputs, deleteValue, clearScreen, handleDot);
 }
 
 let displaybleInputs = [];
-const operators = {
+const OPERATORS = {
     "addition": " + ",
     "subtraction": " - ",
     "multiplication": " x ",
     "division": " / ",
 }
 
+const OPERATORS_AND_OPERANDS = {
+    "one": 1,
+        "two": 2,
+        "three": 3,
+        "four": 4,
+        "five": 5,
+        "six": 6,
+        "seven": 7,
+        "eight": 8,
+        "nine": 9,
+        "zero": 0,
+        "dot": ".",
+        "addition": " + ",
+        "subtraction": " - ",
+        "multiplication": " x ",
+        "division": " / ",
+}
 
 
 let getScreenValue = () => {
@@ -26,7 +43,7 @@ function focusOnScreen() {
 }
 
 
-function processInput(getInputs, deleteValue, clearScreen, handleDot, preventOperatorAfterDot) {
+function processInput(getInputs, deleteValue, clearScreen, handleDot) {
     let specialInput;
     const keys = document.querySelectorAll(".keypad input");
     keys.forEach(key => {
@@ -74,31 +91,9 @@ function showInputs(displaybleInputs) {
 }
 
 function getInputs(displaybleInputs, ID, preventConsequtiveOperators) {
-    const operatorsAndOperands = {
-        "one": 1,
-        "two": 2,
-        "three": 3,
-        "four": 4,
-        "five": 5,
-        "six": 6,
-        "seven": 7,
-        "eight": 8,
-        "nine": 9,
-        "zero": 0,
-        "dot": ".",
-        "addition": " + ",
-        "subtraction": " - ",
-        "multiplication": " x ",
-        "division": " / ",
-    }
-
-    const operators = {
-        "addition": " + ",
-        "subtraction": " - ",
-        "multiplication": " x ",
-        "division": " / ",
-        // "dot": "." //Here dot is treated as an operator, for convenience
-    }
+    const operatorsAndOperands = OPERATORS_AND_OPERANDS;
+    const operators = OPERATORS;
+    operators["dot"] = ".";
 
     for (const key in operatorsAndOperands) {
         if (key == ID) {
@@ -108,7 +103,7 @@ function getInputs(displaybleInputs, ID, preventConsequtiveOperators) {
                     if (operators[op] == displaybleInputs[displaybleInputs.length - 1]) {
                         lastInputType = op;
                     }
-                }
+                } 
                 preventConsequtiveOperators(displaybleInputs, lastInputType, key)
             } else {
                 displaybleInputs.push(operatorsAndOperands[key]);
@@ -133,33 +128,26 @@ function clearScreen(displaybleInputs) {
 
 function preventConsequtiveOperators(allInputs, lastInputType, newInputType) {
     let inputValue;
-    const operators = {
-        "addition": " + ",
-        "subtraction": " - ",
-        "division": " / ",
-        "multiplication": " x ",
-        // "dot": "." //Here dot is treated as an operator, for convenience
-    }
+    const operators = OPERATORS;
+    delete operators["dot"];
 
     inputValue = operators[newInputType];
     if (inputValue == allInputs[allInputs.length - 1] || operators.hasOwnProperty(lastInputType)) {
-        allInputs[allInputs.length - 1] = inputValue; //1. Replace the last value on the screen with the new input if the both the former and the latter operators
-    } else {
-        allInputs.push(inputValue); //2. Add the new input to the screen if condition 1 failed. 
+        allInputs[allInputs.length - 1] = inputValue; //Replace the last value on the screen with the new input if the both the former and the latter operators
+    } else if (lastInputType == "dot") {
+        return //Prevent an operator to be added immediately after a dot
+    }
+
+    else {
+        allInputs.push(inputValue); //Add the new input to the screen if condition 1 failed. 
     }
 
 }
 
 
 function handleDot() {
-    const operators = {
-        "addition": " + ",
-        "subtraction": " - ",
-        "division": " / ",
-        "multiplication": " x ",
-    }
+    const operators = OPERATORS;
 
-    console.log(displaybleInputs);
     //A dot should not come immediately after an operator
     for (const operator in operators) {
         if (displaybleInputs[displaybleInputs.length - 1] == operators[operator]) {
@@ -199,12 +187,6 @@ function handleDot() {
     showInputs(displaybleInputs);
 }
 
-function preventOperatorAfterDot(specialInput) {
-    //Operator should not come immediately after a dot.
-    if (operators.hasOwnProperty(specialInput) && displaybleInputs[displaybleInputs.length - 1] == ".") {
-        return;
-    }
-}
 
 
 function doCalculations(inputs, addition, subtraction, multiplication, division) {
