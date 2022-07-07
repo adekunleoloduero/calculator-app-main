@@ -1,10 +1,23 @@
 
 window.onload = function() {
     focusOnScreen();
-    processInput(getInputs, deleteValue, clearScreen);
+    processInput(getInputs, deleteValue, clearScreen, handleDot, preventOperatorAfterDot);
 }
 
-const displaybleInputs = [];
+let displaybleInputs = [];
+const operators = {
+    "addition": " + ",
+    "subtraction": " - ",
+    "multiplication": " x ",
+    "division": " / ",
+}
+
+
+
+let getScreenValue = () => {
+    const screenValue = document.getElementById("screen").value;
+    return screenValue;
+}
 
 //Focus on the screen immediately the page loads.
 function focusOnScreen() {
@@ -13,7 +26,7 @@ function focusOnScreen() {
 }
 
 
-function processInput(getInputs, deleteValue, clearScreen) {
+function processInput(getInputs, deleteValue, clearScreen, handleDot, preventOperatorAfterDot) {
     let specialInput;
     const keys = document.querySelectorAll(".keypad input");
     keys.forEach(key => {
@@ -34,6 +47,14 @@ function processInput(getInputs, deleteValue, clearScreen) {
 
                 } else if (specialInput == "equal-to") {
                     doCalculations(displaybleInputs);
+                    focusOnScreen();
+
+                } else if (specialInput == "dot") {
+                    handleDot();
+                    focusOnScreen();
+
+                } else if (operators.hasOwnProperty(specialInput)) {
+                    preventOperatorAfterDot(specialInput);
                     focusOnScreen();
                 }
             }
@@ -89,8 +110,7 @@ function getInputs(displaybleInputs, ID, preventConsequtiveOperators) {
                     }
                 }
                 preventConsequtiveOperators(displaybleInputs, lastInputType, key)
-            } else if ()
-            else {
+            } else {
                 displaybleInputs.push(operatorsAndOperands[key]);
             }
         }
@@ -132,35 +152,58 @@ function preventConsequtiveOperators(allInputs, lastInputType, newInputType) {
 
 
 function handleDot() {
+    const operators = {
+        "addition": " + ",
+        "subtraction": " - ",
+        "division": " / ",
+        "multiplication": " x ",
+    }
+
+    console.log(displaybleInputs);
+    //A dot should not come immediately after an operator
+    for (const operator in operators) {
+        if (displaybleInputs[displaybleInputs.length - 1] == operators[operator]) {
+            return;
+        }
+    }
+
     //A given value should not contain multiple dots
-    /** 
-     * Get last value on the screen
-     * Count number of dot it contains
-     * If number of dot is greater less that zero append dot
-     * Otherwise, don't append dot
-    */
+    let screenValue = getScreenValue();
+    const screenValueSplited = screenValue.split(" ");
+    let lastValue = screenValueSplited[screenValueSplited.length - 1];
+    let dotCount = 0;
+    for (const dot of lastValue) {
+        if (dot == ".") {
+            dotCount += 1;
+        }
+    }
+    if (dotCount > 0) {
+        return;
+    }
 
     //Should not start with a dot
-    /**
-     * If length of displaybleInput is 0 do not append dot
-     */
     if (displaybleInputs.length == 0) {
         displaybleInputs = [];
     }
 
     //A dot should not come immediately after another dot
-    /**
-     * If lastInputType is dot don't append dot
-     */
-
-    if (displaybleInputs[displaybleInputs.length - 1] == ".") {
+    else if (displaybleInputs[displaybleInputs.length - 1] == ".") {
         displaybleInputs[displaybleInputs.length - 1] = ".";
     }
 
-    //An operator should not come immediately after a dot
-    /**
-     * If lastInputType is an operator don'tt append dot
-     */
+    //If non of the above is the case then append dot to displaybleInputs
+    else {
+        displaybleInputs.push(".");
+    }
+
+    showInputs(displaybleInputs);
+}
+
+function preventOperatorAfterDot(specialInput) {
+    //Operator should not come immediately after a dot.
+    if (operators.hasOwnProperty(specialInput) && displaybleInputs[displaybleInputs.length - 1] == ".") {
+        return;
+    }
 }
 
 
