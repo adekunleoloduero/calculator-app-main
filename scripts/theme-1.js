@@ -189,8 +189,8 @@ function handleDot() {
 
 
 
-function doCalculations(inputs, addition, subtraction, multiplication, division) {
-
+function doCalculation(screenValue, addition, subtraction, multiplication, division) {
+    
 }
 
 function addition(val1, val2) {
