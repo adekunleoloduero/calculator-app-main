@@ -8,7 +8,8 @@
   
   <title>Frontend Mentor | Calculator app</title>
   <link rel="stylesheet" href="./css/theme-1.css">
-  <script src="./scripts/theme-1.js" defer></script>
+  <!-- <script src="./scripts/theme-1.js" defer></script> -->
+  <script src="./scripts/index.js" defer></script>
 
   <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
   <style>
@@ -28,7 +29,8 @@
       </div>
     </div>
     <div class="screen screen-background">
-      <input type="text" id="screen" name="screen">
+      <input type="text" name="expression" id="expression">
+      <input type="text" id="value" name="value">
     </div>
     <div class="keypad keypad-background">
       <input type="button" id="seven" class="operand light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="7">
@@ -48,7 +50,7 @@
       <input type="button" id="division" class="operator light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="/">
       <input type="button" id="multiplication" class="operator light-grayish-orange very-dark-grayish-blue grayish-orange-shadow" value="x">
       <input type="button" id="reset" class="special desaturated-dark-blue-background white desaturated-dark-blue-shadow reset" value="RESET">
-      <input type="button" id="equal-to" class="special red white dark-red-shadow equal-to" value="=">
+      <input type="button" id="equal-to" class="equality red white dark-red-shadow equal-to" value="=">
     </div>
   </main>
 
